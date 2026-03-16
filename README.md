@@ -1,5 +1,5 @@
 ## Expo Animated Tabs
-a nice animated tabs built with expo.
+Animated tabs built with expo, custom first class components.
 
 ![app screenshot](./app_screenshot.png)
 
