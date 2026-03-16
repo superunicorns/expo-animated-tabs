@@ -1,6 +1,6 @@
 import { View, Text, Pressable } from "react-native";
 import * as icons from 'lucide-react-native/icons';
-import Animated, { FadeInRight, FadeOutRight, LinearTransition } from "react-native-reanimated";
+import Animated, { FadeInRight, FadeOutRight, LayoutAnimationConfig, LinearTransition } from "react-native-reanimated";
 import { MotiProps, MotiView } from "moti";
 import { motifySvg } from "moti/svg";
 
@@ -47,7 +47,7 @@ export function Tabs({
       const isSelected = selectedIndex === index;
 
       return <MotiView 
-          key={index}
+          key={`tab-${index}`}
           animate={{ overflow: "hidden", borderRadius: 8, backgroundColor: isSelected ? activeBackgroundColor : inactiveBackgroundColor}}
           layout={LinearTransition.springify().damping(80).stiffness(200)}
         >
@@ -62,14 +62,16 @@ export function Tabs({
             animate={{ color: isSelected ? activeColor : inactiveColor }}
             name={item.icon} 
           />
-          { isSelected &&  
-          <Animated.Text 
-            entering={FadeInRight.springify().damping(80).stiffness(200)}
-            exiting={FadeOutRight.springify().damping(80).stiffness(200)}
-            style={{
-              color: isSelected ? activeColor : inactiveColor,
-              fontWeight: isSelected ? "bold" : "normal",
-          }}>{item.label}</Animated.Text>}
+          <LayoutAnimationConfig skipEntering>
+            { isSelected &&  
+            <Animated.Text 
+              entering={FadeInRight.springify().damping(80).stiffness(200)}
+              exiting={FadeOutRight.springify().damping(80).stiffness(200)}
+              style={{
+                color: isSelected ? activeColor : inactiveColor,
+                fontWeight: isSelected ? "bold" : "normal",
+            }}>{item.label}</Animated.Text>}
+          </LayoutAnimationConfig>
         </Pressable>
       </MotiView>
     })}

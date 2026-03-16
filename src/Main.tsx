@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Constants from "expo-constants";
 import { Tabs } from './Tabs';
 import { useState } from 'react';
-import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
+import Animated, { FadeInRight, FadeOutRight, LayoutAnimationConfig } from 'react-native-reanimated';
 
 const statusBarHeight = Constants.statusBarHeight;
 
@@ -27,12 +27,14 @@ export default function Main() {
         onChange={(index) => setSelectedIndex(index)}
         selectedIndex={selectedIndex}
         />
-        <Animated.View 
-          key={`tab-content-${selectedIndex}`}
-          entering={FadeInRight.springify().damping(80).stiffness(200)}
-          exiting={FadeOutRight.springify().damping(80).stiffness(200)}
-          style={{ backgroundColor: tabs[selectedIndex], flex: 1, borderRadius: 8 }} 
-        />
+        <LayoutAnimationConfig skipEntering>
+          <Animated.View 
+            key={`tab-content-${selectedIndex}`}
+            entering={FadeInRight.springify().damping(80).stiffness(200)}
+            exiting={FadeOutRight.springify().damping(80).stiffness(200)}
+            style={{ backgroundColor: tabs[selectedIndex], flex: 1, borderRadius: 8 }} 
+          />
+        </LayoutAnimationConfig>
       </View>
     </SafeAreaView>
   );
